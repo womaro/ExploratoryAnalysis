@@ -21,3 +21,7 @@ loctranslate <- readRDS(dataloc2)
 head(introdata)
 head(loctranslate)
 
+test
+
+
+
