@@ -10,6 +10,7 @@
 summarySCC_PM25.rds
 Source_Classification_Code.rds
 exdata_data_NEI_data.zip
+ExploratoryAnalysis.Rproj
 
 # Example code in package build process
 *-Ex.R
