@@ -11,17 +11,20 @@ unzip(data_dest)
 
 list.files(getwd())
 
-dataloc <- paste(getwd(), "/summarySCC_PM25.rds", sep= "")
+#dataloc <- paste(getwd(), "/summarySCC_PM25.rds", sep= "")
+#dataloc2 <- paste(getwd(), "/Source_Classification_Code.rds", sep= "")
 
-dataloc2 <- paste(getwd(), "/Source_Classification_Code.rds", sep= "")
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
 
-introdata <- readRDS(dataloc)
-loctranslate <- readRDS(dataloc2)
+options(scipen = 100) #remove scientific notation for Total
 
-head(introdata)
-head(loctranslate)
+SumNEI <- NEI %>% group_by(year) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
-test
+plot(SumNEI$year,SumNEI$Total,main = "Total pm2.5 emission recorded for given year", col = "blue", pch = 19, cex.axis=0.75, xlab = "Year", ylab = "Total pm 2.5")
 
+
+dev.copy(png, file = "plot1.PNG")
+dev.off()
 
 
