@@ -2,9 +2,12 @@ library(utils)
 library(data.table)
 library(dplyr)
 library(ggplot2)
+library(stringr)
 
 data_source <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip"
 data_dest <- paste(getwd(), "/exdata_data_NEI_data.zip", sep = "")
+
+options(scipen = 100) #remove scientific notation for Total
 
 download.file(data_source, data_dest)
 
@@ -18,10 +21,21 @@ list.files(getwd())
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
+SCC$combine <- paste(SCC$SCC.Level.One, SCC$SCC.Level.Three) #additional column containing type and source
+
+coalUsed <- grep("Combustion.*?Coal)", SCC$combine, value = TRUE)
+
+pattern <- c("Combustion", "Coal")
+
+all(str_detect(SCC$combine,pattern))
+
+test <- str_extract(SCC$combine, "Combustion", "Coal")
+
+coalused
 head(NEI)
 head(SCC, 10)
+head(coalUsed, 10)
 
-options(scipen = 100) #remove scientific notation for Total
 
 BaltimoreNEI <- NEI %>% filter(fips == "06037") %>% group_by(year, type) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
