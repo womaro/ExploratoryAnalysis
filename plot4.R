@@ -23,25 +23,17 @@ SCC <- readRDS("Source_Classification_Code.rds")
 
 SCC$combine <- paste(SCC$SCC.Level.One, SCC$SCC.Level.Three) #additional column containing type and source
 
-coalUsed <- grep("Combustion.*?Coal)", SCC$combine, value = TRUE)
+combustionCoalUsed <- grep("Combustion.*?Coal", SCC$combine) #Vector containing combustion and coal as a source
 
-pattern <- c("Combustion", "Coal")
+combustionCoalLocations[] <- SCC$SCC[combustionCoalUsed] #Locations where combustion and coal were source in dataset
 
-all(str_detect(SCC$combine,pattern))
+head(combustionCoalUsed)
 
-test <- str_extract(SCC$combine, "Combustion", "Coal")
+CoalComNEI <- NEI[NEI$SCC %in% combustionCoalLocations,]
 
-coalused
-head(NEI)
-head(SCC, 10)
-head(coalUsed, 10)
+TotalCoalCombustionNEI <- CoalComNEI %>% group_by(year) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
+plot(TotalCoalCombustionNEI$year,TotalCoalCombustionNEI$Total,main = "Total pm2.5 emission from coal combustion in a given year", col = "blue", pch = 19, cex.axis=0.75, xlab = "Year", ylab = "Total pm 2.5")
 
-BaltimoreNEI <- NEI %>% filter(fips == "06037") %>% group_by(year, type) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
-
-q <- qplot(year, Total, data = BaltimoreNEI, facets = .~type) + geom_smooth(size = 0.9, linetype = 1, method = "lm", se = FALSE) #main plot
-
-q + ggtitle(label = "PM2.5 sources in Baltimore by type across years") +theme(plot.title = element_text(hjust = 0.5))  +labs(x = "Year of measurement", y = "Total pm2.5 in Baltimore") + coord_cartesian(ylim = c(0, 22000)) # and some additional settings to it
-
-dev.copy(png, file = "plot3.PNG")
+dev.copy(png, file = "plot4.PNG")
 dev.off()
