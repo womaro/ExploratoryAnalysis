@@ -29,7 +29,7 @@ combustionCoalLocations[] <- SCC$SCC[combustionCoalUsed] #Locations where combus
 
 head(combustionCoalUsed)
 
-CoalComNEI <- NEI[NEI$SCC %in% combustionCoalLocations,]
+CoalComNEI <- NEI[NEI$SCC %in% combustionCoalLocations,] #Subset of NEI where source is coming from combustion of coal
 
 TotalCoalCombustionNEI <- CoalComNEI %>% group_by(year) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
