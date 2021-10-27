@@ -23,7 +23,7 @@ head(SCC, 10)
 
 options(scipen = 100) #remove scientific notation for Total
 
-BaltimoreNEI <- NEI %>% filter(fips == "06037") %>% group_by(year, type) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
+BaltimoreNEI <- NEI %>% filter(fips == "24510") %>% group_by(year, type) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
 q <- qplot(year, Total, data = BaltimoreNEI, facets = .~type) + geom_smooth(size = 0.9, linetype = 1, method = "lm", se = FALSE) #main plot
 

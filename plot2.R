@@ -17,12 +17,12 @@ list.files(getwd())
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-head(NEI)
-head(SCC)
+#head(NEI)
+#head(SCC)
 
 options(scipen = 100) #remove scientific notation for Total
 
-BaltimoreNEI <- NEI %>% filter(fips == "06037") %>% group_by(year) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
+BaltimoreNEI <- NEI %>% filter(fips == "24510") %>% group_by(year) %>% summarise(Total = sum(Emissions, na.rm=TRUE))
 
 plot(BaltimoreNEI$year,BaltimoreNEI$Total,main = "Total pm2.5 emission recorded for given year for Baltimore", col = "blue", pch = 19, cex.axis=0.75, xlab = "Year", ylab = "Total pm 2.5")
 

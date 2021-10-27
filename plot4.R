@@ -21,13 +21,15 @@ list.files(getwd())
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
+typeof(combustionCoalUsed)
+
 SCC$combine <- paste(SCC$SCC.Level.One, SCC$SCC.Level.Three) #additional column containing type and source
 
 combustionCoalUsed <- grep("Combustion.*?Coal", SCC$combine) #Vector containing combustion and coal as a source
 
-combustionCoalLocations[] <- SCC$SCC[combustionCoalUsed] #Locations where combustion and coal were source in dataset
+combustionCoalLocations <- SCC$SCC[combustionCoalUsed] #Locations where combustion and coal were source in dataset
 
-head(combustionCoalUsed)
+#head(combustionCoalUsed)
 
 CoalComNEI <- NEI[NEI$SCC %in% combustionCoalLocations,] #Subset of NEI where source is coming from combustion of coal
 
